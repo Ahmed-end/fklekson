@@ -1,78 +1,424 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flash Shield</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/lucide-icons@latest/dist/umd/lucide.min.js" rel="stylesheet">
-</head>
-<body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col">
-  <!-- Hero Section -->
-  <section class="flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-r from-indigo-500 to-blue-600 text-white">
-    <h1 class="text-5xl font-bold mb-4">Flash Shield</h1>
-    <p class="text-lg md:text-xl max-w-2xl">
-      Your USB’s personal bodyguard. Protects against malware, viruses, and threats instantly – right from your USB.
-    </p>
-    <div class="mt-6 flex gap-4">
-      <a href="#" class="bg-white text-indigo-600 hover:bg-gray-200 font-semibold px-6 py-3 rounded-2xl shadow-lg">Download Now</a>
-      <a href="#features" class="bg-indigo-700 hover:bg-indigo-800 px-6 py-3 rounded-2xl shadow-lg">Learn More</a>
-    </div>
-  </section>
+import { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  ShieldCheck,
+  Usb,
+  Zap,
+  Lock,
+  Cloud,
+  Cpu,
+  Activity,
+  Download,
+  Github,
+  CheckCircle2,
+  Mail,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 
-  <!-- Features Section -->
-  <section id="features" class="py-16 px-6 max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-    <div class="shadow-xl rounded-2xl p-6 text-center bg-white">
-      <i data-lucide="shield-check" class="w-12 h-12 mx-auto mb-4 text-indigo-600"></i>
-      <h2 class="font-semibold text-xl mb-2">Automatic Protection</h2>
-      <p class="text-gray-700">Scans your USB instantly when inserted, deleting threats on the spot.</p>
-    </div>
+// ---------- Helpers ----------
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+};
+const item = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 70 } },
+};
 
-    <div class="shadow-xl rounded-2xl p-6 text-center bg-white">
-      <i data-lucide="cloud" class="w-12 h-12 mx-auto mb-4 text-indigo-600"></i>
-      <h2 class="font-semibold text-xl mb-2">Cloud-Powered Security</h2>
-      <p class="text-gray-700">Integrates with VirusTotal for advanced malware detection and analysis.</p>
-    </div>
-
-    <div class="shadow-xl rounded-2xl p-6 text-center bg-white">
-      <i data-lucide="usb" class="w-12 h-12 mx-auto mb-4 text-indigo-600"></i>
-      <h2 class="font-semibold text-xl mb-2">Portable & Lightweight</h2>
-      <p class="text-gray-700">Runs directly from your USB with no installation needed.</p>
-    </div>
-  </section>
-
-  <!-- Business Model Highlights -->
-  <section class="py-16 px-6 bg-gray-100">
-    <h2 class="text-3xl font-bold text-center mb-10">Business Model</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-      <div class="shadow-xl rounded-2xl p-4 bg-white">
-        <h3 class="font-semibold text-lg mb-2">Problem</h3>
-        <p>USB malware spreads quickly. Antivirus is heavy and expensive.</p>
+// ---------- Sections ----------
+function NavBar() {
+  const [open, setOpen] = useState(false);
+  return (
+    <nav className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/70 border-b">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="#" className="flex items-center gap-2">
+          <div className="size-9 rounded-2xl grid place-items-center bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md">
+            <ShieldCheck className="size-5"/>
+          </div>
+          <span className="font-bold text-lg">Flash Shield</span>
+          <Badge className="ml-2 hidden sm:inline-flex" variant="secondary">USB Security</Badge>
+        </a>
+        <div className="hidden md:flex items-center gap-6 text-sm">
+          <a href="#features" className="hover:text-blue-600">Features</a>
+          <a href="#how" className="hover:text-blue-600">How it works</a>
+          <a href="#pricing" className="hover:text-blue-600">Pricing</a>
+          <a href="#faq" className="hover:text-blue-600">FAQ</a>
+          <a href="#download" className="hover:text-blue-600">Download</a>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button asChild variant="outline" className="hidden md:inline-flex">
+            <a href="#download"><Download className="mr-2 size-4"/> Get App</a>
+          </Button>
+          <Button asChild className="hidden md:inline-flex">
+            <a href="#github"><Github className="mr-2 size-4"/> GitHub</a>
+          </Button>
+          <button className="md:hidden p-2" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+            <span className="i-[hamburger]"/>
+            <div className="w-6 h-[2px] bg-black mb-1"/>
+            <div className="w-6 h-[2px] bg-black mb-1"/>
+            <div className="w-6 h-[2px] bg-black"/>
+          </button>
+        </div>
       </div>
+      {open && (
+        <div className="md:hidden border-t">
+          <div className="px-4 py-3 flex flex-col gap-3">
+            <a href="#features" onClick={() => setOpen(false)}>Features</a>
+            <a href="#how" onClick={() => setOpen(false)}>How it works</a>
+            <a href="#pricing" onClick={() => setOpen(false)}>Pricing</a>
+            <a href="#faq" onClick={() => setOpen(false)}>FAQ</a>
+            <a href="#download" onClick={() => setOpen(false)}>Download</a>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+}
 
-      <div class="shadow-xl rounded-2xl p-4 bg-white">
-        <h3 class="font-semibold text-lg mb-2">Solution</h3>
-        <p>Flash Shield: automatic, portable USB-based malware defense.</p>
+function Hero() {
+  return (
+    <section className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-56 right-[-10%] h-[520px] w-[520px] rounded-full blur-3xl opacity-30 bg-blue-400"/>
+        <div className="absolute -bottom-56 left-[-10%] h-[520px] w-[520px] rounded-full blur-3xl opacity-30 bg-indigo-400"/>
       </div>
+      <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 grid lg:grid-cols-2 gap-10 items-center">
+        <motion.div variants={container} initial="hidden" animate="show">
+          <motion.h1 variants={item} className="text-4xl md:text-6xl font-extrabold leading-tight">
+            Portable protection for every <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">USB drive</span>
+          </motion.h1>
+          <motion.p variants={item} className="mt-5 text-lg text-gray-600 max-w-xl">
+            Flash Shield scans and disinfects your USB the moment it’s plugged in — no installs, no friction, just clean drives. Heuristics + cloud checks keep you ahead of zero‑days.
+          </motion.p>
+          <motion.div variants={item} className="mt-8 flex flex-wrap gap-3">
+            <Button size="lg" asChild>
+              <a href="#download"><Download className="mr-2 size-5"/> Download for Windows</a>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <a href="#pricing">See Pricing</a>
+            </Button>
+          </motion.div>
+          <motion.div variants={item} className="mt-6 flex items-center gap-4 text-sm text-gray-600">
+            <div className="flex items-center gap-2"><CheckCircle2 className="size-4"/> No installation required</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="size-4"/> Runs from the USB</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="size-4"/> VirusTotal integration</div>
+          </motion.div>
+        </motion.div>
 
-      <div class="shadow-xl rounded-2xl p-4 bg-white">
-        <h3 class="font-semibold text-lg mb-2">Revenue Streams</h3>
-        <ul class="list-disc pl-5 text-gray-700">
-          <li>Freemium & subscriptions</li>
-          <li>Enterprise licensing</li>
-          <li>Secure USB bundles</li>
-        </ul>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}
+          className="relative">
+          <div className="rounded-3xl p-1 bg-gradient-to-br from-blue-600/80 to-indigo-600/80 shadow-2xl">
+            <div className="rounded-3xl bg-white p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="size-10 rounded-2xl grid place-items-center bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow">
+                    <Usb className="size-5"/>
+                  </div>
+                  <div>
+                    <div className="font-semibold">Flash Shield</div>
+                    <div className="text-xs text-gray-500">USB Security Engine</div>
+                  </div>
+                </div>
+                <Badge>v1.0</Badge>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-4">
+                {[
+                  { icon: <Zap className="size-5"/>, title: "Auto‑scan", desc: "Triggers on plug‑in" },
+                  { icon: <Cloud className="size-5"/>, title: "Cloud check", desc: "VirusTotal API" },
+                  { icon: <Lock className="size-5"/>, title: "Real‑time lock", desc: "Blocks autorun" },
+                ].map((f, i) => (
+                  <Card key={i} className="rounded-2xl border-dashed">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="flex items-center gap-2 text-base">
+                        {f.icon} {f.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm text-gray-600">{f.desc}</CardContent>
+                  </Card>
+                ))}
+              </div>
+              <div className="mt-4 text-xs text-gray-500 flex items-center gap-2">
+                <Activity className="size-4"/> Live heuristic engine • Sandboxed checks • Quarantine & logs
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
+    </section>
+  );
+}
+
+function Features() {
+  const features = [
+    { icon: <ShieldCheck className="size-6"/>, title: "USB‑native security", desc: "Runs from the drive itself. Works on any Windows PC without admin rights." },
+    { icon: <Cpu className="size-6"/>, title: "Heuristic detection", desc: "Catches suspicious behavior beyond signatures and autorun malware." },
+    { icon: <Cloud className="size-6"/>, title: "VirusTotal integration", desc: "Hashes & checks files against 70+ engines via API." },
+    { icon: <Lock className="size-6"/>, title: "Real‑time protection", desc: "Blocks malicious processes, hides system files, repairs shortcuts." },
+    { icon: <Zap className="size-6"/>, title: "One‑click clean", desc: "Instant disinfect & restore with readable logs." },
+    { icon: <Usb className="size-6"/>, title: "Works offline", desc: "Core heuristics run without internet; syncs when online." },
+  ];
+  return (
+    <section id="features" className="py-16 md:py-24 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold">Built for the real world</h2>
+          <p className="mt-3 text-gray-600">Public labs, schools, printing shops — Flash Shield just works.</p>
+        </div>
+        <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: true }}
+          className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((f, i) => (
+            <motion.div variants={item} key={i}>
+              <Card className="rounded-3xl h-full">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3 text-xl">{f.icon}{f.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="text-gray-600">{f.desc}</CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function HowItWorks() {
+  const steps = [
+    { title: "Plug‑in", desc: "Insert USB. Flash Shield auto‑launches.", icon: <Usb className="size-5"/> },
+    { title: "Scan", desc: "Heuristics check files & structure.", icon: <Cpu className="size-5"/> },
+    { title: "Cloud verify", desc: "Optional VirusTotal hash check.", icon: <Cloud className="size-5"/> },
+    { title: "Clean", desc: "Quarantine, delete, restore shortcuts.", icon: <ShieldCheck className="size-5"/> },
+  ];
+  return (
+    <section id="how" className="py-16 md:py-24">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold">How it works</h2>
+            <p className="mt-3 text-gray-600">Zero setup. Clean drives in seconds. Logs for transparency.</p>
+            <div className="mt-6 grid sm:grid-cols-2 gap-4">
+              {steps.map((s, i) => (
+                <Card key={i} className="rounded-2xl">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-center gap-2 text-lg">{s.icon}{s.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-gray-600 text-sm">{s.desc}</CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="rounded-3xl p-1 bg-gradient-to-br from-indigo-600/80 to-blue-600/80 shadow-2xl">
+              <div className="rounded-3xl bg-white p-6">
+                <div className="text-sm text-gray-500 mb-3">Live scan preview</div>
+                <div className="rounded-xl border p-4 h-64 overflow-auto text-xs font-mono bg-gray-50">
+                  {[...Array(12)].map((_, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <Activity className="size-4"/>
+                      <span>Scanning: D:\\{i}\\docs\\invoice_{i}.pdf ... OK</span>
+                    </div>
+                  ))}
+                  <div className="flex items-center gap-2 text-green-600 mt-2">
+                    <CheckCircle2 className="size-4"/> No threats found. Hash sync complete.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Pricing() {
+  const plans = [
+    {
+      name: "Free",
+      price: "$0",
+      tagline: "Personal basics",
+      features: [
+        "On‑plug auto‑scan",
+        "Core heuristics",
+        "Autorun block",
+        "Basic logs",
+      ],
+      cta: "Download",
+      highlight: false,
+    },
+    {
+      name: "Pro",
+      price: "$4.99/mo",
+      tagline: "For power users",
+      features: [
+        "Everything in Free",
+        "VirusTotal API checks",
+        "Heuristic tuning",
+        "Quarantine manager",
+        "Priority updates",
+      ],
+      cta: "Start Pro",
+      highlight: true,
+    },
+    {
+      name: "Enterprise",
+      price: "Custom",
+      tagline: "For schools & orgs",
+      features: [
+        "Centralized dashboard",
+        "Bulk USB provisioning",
+        "Offline rules sync",
+        "Email support SLA",
+      ],
+      cta: "Talk to sales",
+      highlight: false,
+    },
+  ];
+  return (
+    <section id="pricing" className="py-16 md:py-24 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold">Simple, fair pricing</h2>
+          <p className="mt-3 text-gray-600">Start free. Upgrade when you need more power.</p>
+        </div>
+        <div className="mt-10 grid md:grid-cols-3 gap-6">
+          {plans.map((p, i) => (
+            <Card key={i} className={`rounded-3xl ${p.highlight ? "border-blue-600 shadow-blue-200 shadow-xl" : ""}`}>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-2xl">{p.name}</CardTitle>
+                  {p.highlight && <Badge className="bg-blue-600 text-white">Popular</Badge>}
+                </div>
+                <div className="text-4xl font-extrabold mt-2">{p.price}</div>
+                <div className="text-gray-500 text-sm">{p.tagline}</div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  {p.features.map((f, j) => (
+                    <li key={j} className="flex items-start gap-2">
+                      <CheckCircle2 className="size-4 mt-0.5"/> {f}
+                    </li>
+                  ))}
+                </ul>
+                <Button className="w-full mt-6" asChild>
+                  <a href="#download">{p.cta}</a>
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Testimonials() {
+  return (
+    <section className="py-16 md:py-24">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold">Trusted where USBs still matter</h2>
+          <p className="mt-3 text-gray-600">From schools to print shops, Flash Shield stops infections before they spread.</p>
+        </div>
+        <div className="mt-10 grid md:grid-cols-3 gap-6">
+          {[1,2,3].map((i) => (
+            <Card key={i} className="rounded-3xl">
+              <CardContent className="pt-6">
+                <p className="text-gray-700">“We clean dozens of drives weekly. Flash Shield cut incidents by 90% and saved our PCs.”</p>
+                <div className="mt-4 text-sm text-gray-500">IT Admin — Public School Lab</div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const faqs = [
+    { q: "Does it need admin rights?", a: "No. Flash Shield runs from the USB and works with standard user permissions on Windows." },
+    { q: "Will it work offline?", a: "Yes. Core heuristics run offline. Cloud checks sync when you’re back online." },
+    { q: "What about privacy?", a: "Only file hashes are sent for cloud checks. No file contents are uploaded." },
+    { q: "Is there an enterprise console?", a: "Yes. The Enterprise plan includes a dashboard for policy and fleet management." },
+  ];
+  return (
+    <section id="faq" className="py-16 md:py-24 bg-gray-50">
+      <div className="max-w-5xl mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-center">Frequently asked questions</h2>
+        <div className="mt-8 grid md:grid-cols-2 gap-6">
+          {faqs.map((f, i) => (
+            <Card key={i} className="rounded-2xl">
+              <CardHeader>
+                <CardTitle className="text-lg">{f.q}</CardTitle>
+              </CardHeader>
+              <CardContent className="text-gray-600">{f.a}</CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CTA() {
+  return (
+    <section id="download" className="py-16 md:py-24">
+      <div className="max-w-4xl mx-auto px-4 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold">Ready to clean your USBs?</h2>
+        <p className="mt-3 text-gray-600">Download the Windows build or join the waitlist for macOS/Linux tools.</p>
+        <div className="mt-6 flex flex-wrap gap-3 justify-center">
+          <Button size="lg" asChild>
+            <a href="#" download><Download className="mr-2 size-5"/> Download for Windows</a>
+          </Button>
+          <Button size="lg" variant="outline" asChild>
+            <a id="github" href="#"><Github className="mr-2 size-5"/> View on GitHub</a>
+          </Button>
+        </div>
+        <div className="mt-8 max-w-md mx-auto">
+          <form onSubmit={(e) => e.preventDefault()} className="flex gap-2">
+            <Input type="email" placeholder="Join the newsletter (email)" required />
+            <Button type="submit"><Mail className="mr-2 size-4"/> Subscribe</Button>
+          </form>
+          <p className="text-xs text-gray-500 mt-2">We only send critical updates & releases.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t py-10">
+      <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <ShieldCheck className="size-4"/> © {new Date().getFullYear()} Flash Shield
+        </div>
+        <div className="text-sm text-gray-600 flex items-center gap-4">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export default function FlashShieldSite() {
+  return (
+    <div className="font-sans text-gray-900">
+      <NavBar />
+      <Hero />
+      <Features />
+      <HowItWorks />
+      <Pricing />
+      <Testimonials />
+      <FAQ />
+      <CTA />
+      <Footer />
     </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-indigo-600 text-white text-center py-6 mt-auto">
-    <p class="font-semibold">© 2025 Flash Shield. All rights reserved.</p>
-  </footer>
-
-  <script>
-    lucide.createIcons();
-  </script>
-</body>
-</html>
+  );
+}
