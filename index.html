@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flash Shield</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/lucide-icons@latest/dist/umd/lucide.min.js" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col">
+  <!-- Hero Section -->
+  <section class="flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-r from-indigo-500 to-blue-600 text-white">
+    <h1 class="text-5xl font-bold mb-4">Flash Shield</h1>
+    <p class="text-lg md:text-xl max-w-2xl">
+      Your USB’s personal bodyguard. Protects against malware, viruses, and threats instantly – right from your USB.
+    </p>
+    <div class="mt-6 flex gap-4">
+      <a href="#" class="bg-white text-indigo-600 hover:bg-gray-200 font-semibold px-6 py-3 rounded-2xl shadow-lg">Download Now</a>
+      <a href="#features" class="bg-indigo-700 hover:bg-indigo-800 px-6 py-3 rounded-2xl shadow-lg">Learn More</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-16 px-6 max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+    <div class="shadow-xl rounded-2xl p-6 text-center bg-white">
+      <i data-lucide="shield-check" class="w-12 h-12 mx-auto mb-4 text-indigo-600"></i>
+      <h2 class="font-semibold text-xl mb-2">Automatic Protection</h2>
+      <p class="text-gray-700">Scans your USB instantly when inserted, deleting threats on the spot.</p>
+    </div>
+
+    <div class="shadow-xl rounded-2xl p-6 text-center bg-white">
+      <i data-lucide="cloud" class="w-12 h-12 mx-auto mb-4 text-indigo-600"></i>
+      <h2 class="font-semibold text-xl mb-2">Cloud-Powered Security</h2>
+      <p class="text-gray-700">Integrates with VirusTotal for advanced malware detection and analysis.</p>
+    </div>
+
+    <div class="shadow-xl rounded-2xl p-6 text-center bg-white">
+      <i data-lucide="usb" class="w-12 h-12 mx-auto mb-4 text-indigo-600"></i>
+      <h2 class="font-semibold text-xl mb-2">Portable & Lightweight</h2>
+      <p class="text-gray-700">Runs directly from your USB with no installation needed.</p>
+    </div>
+  </section>
+
+  <!-- Business Model Highlights -->
+  <section class="py-16 px-6 bg-gray-100">
+    <h2 class="text-3xl font-bold text-center mb-10">Business Model</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div class="shadow-xl rounded-2xl p-4 bg-white">
+        <h3 class="font-semibold text-lg mb-2">Problem</h3>
+        <p>USB malware spreads quickly. Antivirus is heavy and expensive.</p>
+      </div>
+
+      <div class="shadow-xl rounded-2xl p-4 bg-white">
+        <h3 class="font-semibold text-lg mb-2">Solution</h3>
+        <p>Flash Shield: automatic, portable USB-based malware defense.</p>
+      </div>
+
+      <div class="shadow-xl rounded-2xl p-4 bg-white">
+        <h3 class="font-semibold text-lg mb-2">Revenue Streams</h3>
+        <ul class="list-disc pl-5 text-gray-700">
+          <li>Freemium & subscriptions</li>
+          <li>Enterprise licensing</li>
+          <li>Secure USB bundles</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-indigo-600 text-white text-center py-6 mt-auto">
+    <p class="font-semibold">© 2025 Flash Shield. All rights reserved.</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
